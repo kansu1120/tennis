@@ -604,7 +604,7 @@ function App() {
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <nav>{nav.map(item => { const Icon = item.icon; return <button key={item.id} className={`nav-item ${activeTab === item.id ? 'active' : ''}`} onClick={() => { setSelectedMember(null); setActiveTab(item.id) }}><Icon size={18} strokeWidth={1.8} /><span>{item.label}</span>{item.id === 'tournaments' && <span className="nav-count">{tournaments.length}</span>}</button> })}</nav>
+        <nav>{nav.map(item => { const Icon = item.icon; return <button key={item.id} className={`nav-item ${activeTab === item.id ? 'active' : ''}`} onClick={() => { setSelectedMember(null); setActiveTab(item.id) }}><Icon size={18} strokeWidth={1.8} /><span className="nav-mark" aria-hidden="true">{item.label.slice(0, 1)}</span><span className="nav-label-text">{item.label}</span>{item.id === 'tournaments' && <span className="nav-count">{tournaments.length}</span>}</button> })}</nav>
       </aside>
       <main className="main">
         <div className="content">

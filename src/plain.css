@@ -44,6 +44,14 @@ select:focus-visible {
   font-size: 14px;
 }
 
+.nav-mark {
+  display: none;
+}
+
+.nav-label-text {
+  flex: 1;
+}
+
 .nav-item svg,
 .nav-count {
   display: none;
@@ -284,7 +292,7 @@ select:focus-visible {
   }
 
   .nav-item {
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
     min-width: 0;
     height: 46px;
@@ -296,6 +304,22 @@ select:focus-visible {
     color: #333;
     font-size: 13px;
     white-space: nowrap;
+  }
+
+  .nav-mark {
+    display: inline-grid;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+    margin-right: 6px;
+    place-items: center;
+    border: 1px solid currentColor;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .nav-label-text {
+    flex: 0 1 auto;
   }
 
   .nav-item.active {
