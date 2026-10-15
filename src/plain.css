@@ -365,11 +365,24 @@ select:focus-visible {
 .bracket-slot-edit,
 .bracket-match-actions,
 .bracket-match-actions button {
-  border-color: #999;
+  border-color: #555;
 }
 
 .bracket-match {
   box-shadow: none;
+}
+
+.bracket-match::after {
+  border-color: #555;
+}
+
+.league-matrix,
+.league-matrix th,
+.league-matrix td,
+.league-rankings,
+.league-rankings h3,
+.league-ranking-item {
+  border-color: #555;
 }
 
 .bracket-player:not(:disabled) {
