@@ -317,6 +317,52 @@ select:focus-visible {
   background: #ddd;
 }
 
+.tournament-side-item.selected,
+.bracket-player.winner,
+.bracket-slot-edit,
+.bracket-match-actions,
+.league-rankings h3,
+.tournament-results th,
+.league-matrix thead th,
+.league-matrix tbody th,
+.league-matrix .league-matrix-corner {
+  background: #eee;
+  color: #111;
+}
+
+.tournament-side-item.selected strong,
+.bracket-player.winner,
+.bracket-player.winner strong,
+.bracket-slot-edit label,
+.bracket-match-actions span,
+.bracket-match-actions button,
+.league-rankings h3,
+.tournament-results th,
+.tournament-results td {
+  color: #111;
+}
+
+.bracket-match,
+.bracket-player + .bracket-player,
+.bracket-slot-edit,
+.bracket-match-actions,
+.bracket-match-actions button {
+  border-color: #999;
+}
+
+.bracket-match {
+  box-shadow: none;
+}
+
+.bracket-slot-edit select,
+.bracket-match-actions button {
+  background: #fff;
+}
+
+.bracket-match-actions button:hover {
+  background: #eee;
+}
+
 @media (max-width: 760px) {
   .sidebar {
     position: static;
