@@ -306,6 +306,15 @@ select:focus-visible {
     white-space: nowrap;
   }
 
+  .nav-item svg {
+    display: block;
+    flex: 0 0 17px;
+  }
+
+  .nav-mark {
+    display: none;
+  }
+
   .nav-mark {
     display: inline-grid;
     flex: 0 0 24px;
