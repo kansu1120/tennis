@@ -268,45 +268,44 @@ select:focus-visible {
 
 @media (max-width: 760px) {
   .sidebar {
-    position: fixed;
-    inset: 0 auto 0 0;
-    width: 128px;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border-right: 1px solid #bbb;
-    border-bottom: 0;
-    padding: 14px 0;
+    position: static;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    border-right: 0;
+    border-bottom: 1px solid #bbb;
+    padding: 0;
     z-index: 4;
   }
 
   .sidebar nav {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .nav-item {
-    justify-content: flex-start;
-    width: 128px;
-    min-width: 128px;
-    padding: 0 12px;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    padding: 0 4px;
     border-right: 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 0;
+    border-right: 1px solid #ddd;
     white-space: nowrap;
   }
 
   .nav-item:last-child {
-    border-bottom: 0;
+    border-right: 0;
   }
 
   .main {
     min-width: 0;
-    margin-left: 128px;
+    margin-left: 0;
   }
 
   .content {
     width: 100%;
-    padding: 22px 10px 32px;
+    padding: 22px 12px 32px;
   }
 
   .page-heading h1 {
