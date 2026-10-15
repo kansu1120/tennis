@@ -909,7 +909,7 @@ function TournamentPage({ tournaments, selected, setSelected, active, members, o
                       return '—'
                     }
                     const handlePlayerClick = () => {
-                      if (active.manualDraw || (roundIndex === 0 && !isMatchResultRecorded && !isEditingFirstRound)) {
+                      if (active.manualDraw) {
                         setEditingBracketMatchId(isEditingFirstRound ? null : match.id)
                         return
                       }
