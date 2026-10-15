@@ -717,7 +717,7 @@ function MemberProfile({ member, rank, tournaments, members, onBack, onEditPoint
   </>
 }
 function Members({ members, onAdd, onMember, onDelete }: { members: Member[]; onAdd: () => void; onMember: (m: Member) => void; onDelete: (m: Member) => void }) {
-  return <><PageHeading title="部員管理" action={<button className="btn-primary" onClick={onAdd}><Plus size={16} /> 部員を追加</button>} /><section className="panel member-list">{members.map(member => <div className="member-list-row" key={member.id}><button className="member-list-item" onClick={() => onMember(member)}><span>{member.name}</span><ChevronRight size={16} /></button><button className="icon-button light member-delete" aria-label={`${member.name}を削除`} title="部員を削除" onClick={() => onDelete(member)}><Trash2 size={15} /></button></div>)}{members.length === 0 && <div className="empty-state">部員がいません。</div>}</section></>
+  return <><PageHeading title="人" action={<button className="btn-primary" onClick={onAdd}><Plus size={16} /> 部員を追加</button>} /><section className="panel member-list">{members.map(member => <div className="member-list-row" key={member.id}><button className="member-list-item" onClick={() => onMember(member)}><span>{member.name}</span><ChevronRight size={16} /></button><button className="icon-button light member-delete" aria-label={`${member.name}を削除`} title="部員を削除" onClick={() => onDelete(member)}><Trash2 size={15} /></button></div>)}{members.length === 0 && <div className="empty-state">部員がいません。</div>}</section></>
 }
 function TournamentPage({ tournaments, selected, setSelected, active, members, onNew, onGenerate, onConfirmManualDraw, onResult, onEdit, onNotice, onDelete, onSaveAwards, onSaveInfo }: { tournaments: Tournament[]; selected: string; setSelected: (s: string) => void; active: Tournament | undefined; members: Member[]; onNew: () => void; onGenerate: (method?: 'automatic' | 'manual') => void; onConfirmManualDraw: () => void; onResult: (m: Match) => void; onEdit: (m: Match, side: 'a' | 'b', id: string) => void; onNotice: (s: string) => void; onDelete: (t: Tournament) => void; onSaveAwards: (id: string, awards: Record<string, number>) => void; onSaveInfo: (id: string, info: { name: string; date: string; format: string; participantIds: string[] }) => void }) {
   const [tab, setTab] = useState('トーナメント')
@@ -819,7 +819,7 @@ function TournamentPage({ tournaments, selected, setSelected, active, members, o
     }
   }
   return <>
-    <PageHeading title="大会管理" action={<button className="btn-primary" onClick={onNew}><Plus size={16} /> 大会を作成</button>} />
+    <PageHeading title="試合" action={<button className="btn-primary" onClick={onNew}><Plus size={16} /> 大会を作成</button>} />
     <div className="tournament-layout">
       <aside className="panel tournament-sidebar">
         <div className="panel-heading"><h3>大会一覧</h3><button className="icon-button light" onClick={onNew}><Plus size={17} /></button></div>
