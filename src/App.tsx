@@ -123,7 +123,7 @@ const initialMembers: Member[] = [
   { id: 'm10', name: '加藤 樹', nickname: 'ITSUKI', points: 60, wins: 3, losses: 16, color: '#e7c8c6' },
 ]
 const initialTournaments: Tournament[] = [
-  { id: 't1', name: 'Autumn Cup #04', date: '2026-10-12', status: '開催中', format: 'ノックアウト', participants: 8, points: { '優勝': 100, '準優勝': 70, 'ベスト4': 40, 'ベスト8': 20 }, expiryDays: 365,
+  { id: 't1', name: 'Autumn Cup #04', date: '2026-10-12', status: '開催中', format: 'ノックアウト', participants: 8, points: { '優勝': 100, '準優勝': 70, 'ベスト4': 40, 'ベスト8': 20 }, expiryDays: null,
     matches: [
       { id: 'a', round: '準々決勝', a: 'm1', b: 'm8', scoreA: 6, scoreB: 2, winner: 'm1' },
       { id: 'b', round: '準々決勝', a: 'm4', b: 'm5', scoreA: 4, scoreB: 6, winner: 'm5' },
@@ -133,9 +133,9 @@ const initialTournaments: Tournament[] = [
       { id: 'f', round: '準決勝', a: 'm2', b: 'm3', scoreA: null, scoreB: null, winner: null },
       { id: 'g', round: '決勝', a: 'm1', b: 'm2', scoreA: null, scoreB: null, winner: null },
     ] },
-  { id: 't2', name: 'Wednesday Rally', date: '2026-10-08', status: '終了', format: 'ノックアウト', participants: 8, points: { '優勝': 80, '準優勝': 50, 'ベスト4': 30, 'ベスト8': 10 }, expiryDays: 180,
+  { id: 't2', name: 'Wednesday Rally', date: '2026-10-08', status: '終了', format: 'ノックアウト', participants: 8, points: { '優勝': 80, '準優勝': 50, 'ベスト4': 30, 'ベスト8': 10 }, expiryDays: null,
     matches: [] },
-  { id: 't3', name: 'Club Challenge #12', date: '2026-10-18', status: '準備中', format: 'ノックアウト', participants: 10, points: { '優勝': 100, '準優勝': 70, 'ベスト4': 40, 'ベスト8': 20 }, expiryDays: 365,
+  { id: 't3', name: 'Club Challenge #12', date: '2026-10-18', status: '準備中', format: 'ノックアウト', participants: 10, points: { '優勝': 100, '準優勝': 70, 'ベスト4': 40, 'ベスト8': 20 }, expiryDays: null,
     matches: [] },
 ]
 const fmt = (n: number) => n.toLocaleString('ja-JP')
