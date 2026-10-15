@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   ArrowLeft, CalendarDays, Check,
   ChevronDown, ChevronLeft, ChevronRight, ClipboardList,
-  Plus, Save, ShieldCheck, Sparkles, Trash2, Trophy, Users, X
+  Plus, Save, Sparkles, Trash2, Trophy, Users, X
 } from 'lucide-react'
 import './ranking.css'
 import { isCloudConfigured, loadSharedState, saveSharedRecords, subscribeToSharedRecords, type SharedRecord } from './sharedData'
@@ -674,7 +674,7 @@ function App() {
         </> : <div className="score-inputs"><div><label className="field-label">{getMember(showResult.a)?.name ?? '選手A'}</label><input className="score-field" type="number" min="0" step="1" value={scoreA} onChange={e => setScoreA(e.target.value)} /></div><span className="vs">VS</span><div><label className="field-label">{getMember(showResult.b)?.name ?? '選手B'}</label><input className="score-field" type="number" min="0" step="1" value={scoreB} onChange={e => setScoreB(e.target.value)} /></div></div>}
         <div className="modal-actions"><button className="btn-secondary" onClick={() => setShowResult(null)}>キャンセル</button><button className="btn-primary" onClick={recordResult}>結果を保存 <Check size={15} /></button></div>
       </Modal>}
-      {showAdminPin && <Modal title="管理者PIN" onClose={() => { setShowAdminPin(false); setPendingAdminAction(null); setAdminPin('') }}><label className="field-label" htmlFor="admin-pin">PIN</label><input id="admin-pin" className="field-input" type="password" inputMode="numeric" maxLength={4} value={adminPin} onChange={e => setAdminPin(e.target.value.replace(/\D/g, '').slice(0, 4))} autoFocus onKeyDown={e => e.key === 'Enter' && confirmAdminPin()} /><div className="modal-note"><ShieldCheck size={16} /> 初期PINは0000です。このPINは画面内の簡易確認用で、ソースやブラウザから回避できるためセキュリティ対策にはなりません。</div><div className="modal-actions"><button className="btn-secondary" onClick={() => { setShowAdminPin(false); setPendingAdminAction(null); setAdminPin('') }}>キャンセル</button><button className="btn-primary" onClick={confirmAdminPin}>続ける <ChevronRight size={15} /></button></div></Modal>}
+      {showAdminPin && <Modal title="管理者PIN" onClose={() => { setShowAdminPin(false); setPendingAdminAction(null); setAdminPin('') }}><label className="field-label" htmlFor="admin-pin">PIN</label><input id="admin-pin" className="field-input" type="password" inputMode="numeric" maxLength={4} value={adminPin} onChange={e => setAdminPin(e.target.value.replace(/\D/g, '').slice(0, 4))} autoFocus onKeyDown={e => e.key === 'Enter' && confirmAdminPin()} /><div className="modal-actions"><button className="btn-secondary" onClick={() => { setShowAdminPin(false); setPendingAdminAction(null); setAdminPin('') }}>キャンセル</button><button className="btn-primary" onClick={confirmAdminPin}>続ける <ChevronRight size={15} /></button></div></Modal>}
     </div>
   )
 }
