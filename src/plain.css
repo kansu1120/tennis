@@ -1,0 +1,314 @@
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+    "Yu Gothic", YuGothic, Meiryo, sans-serif;
+  color: #111;
+  background: #fff;
+  font-size: 14px;
+}
+
+body {
+  background: #fff;
+  color: #111;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 1px;
+}
+
+.sidebar {
+  width: 184px;
+  padding: 22px 0;
+  background: #fff;
+  border-right: 1px solid #bbb;
+}
+
+.sidebar nav {
+  gap: 0;
+}
+
+.nav-item {
+  width: 100%;
+  height: 44px;
+  border-radius: 0;
+  padding: 0 20px;
+  color: #333;
+  font-size: 14px;
+}
+
+.nav-item svg,
+.nav-count {
+  display: none;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: #eee;
+  color: #111;
+  font-weight: 600;
+}
+
+.main {
+  margin-left: 184px;
+}
+
+.content {
+  max-width: 1100px;
+  padding: 32px 36px 48px;
+}
+
+.page-heading {
+  margin-bottom: 24px;
+}
+
+.page-heading h1 {
+  margin: 0;
+  color: #111;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.panel {
+  border: 1px solid #bbb;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+}
+
+.ranking-list-head,
+.ranking-item {
+  grid-template-columns: 72px minmax(0, 1fr) 120px;
+  gap: 14px;
+  padding: 12px 16px;
+}
+
+.ranking-list-head {
+  background: #eee;
+  border-bottom-color: #999;
+  color: #111;
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+.ranking-item {
+  border-bottom-color: #ccc;
+}
+
+.ranking-item:hover,
+.member-list-item:hover,
+.player-history-row:hover {
+  background: #f3f3f3;
+}
+
+.ranking-position,
+.ranking-position.top-rank,
+.ranking-points {
+  color: #111;
+  font: inherit;
+  font-weight: 600;
+}
+
+.ranking-player {
+  gap: 0;
+}
+
+.ranking-player strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ranking-points svg {
+  display: none;
+}
+
+.btn-primary,
+.btn-secondary {
+  border-radius: 0;
+  padding: 9px 13px;
+  box-shadow: none;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.btn-primary {
+  border-color: #111;
+  background: #111;
+}
+
+.btn-primary:hover {
+  background: #333;
+}
+
+.btn-secondary {
+  border-color: #999;
+  color: #111;
+}
+
+.btn-secondary:hover,
+.icon-button:hover {
+  background: #eee;
+}
+
+.icon-button,
+.icon-button.light {
+  border-radius: 0;
+  color: #111;
+  background: transparent;
+}
+
+.panel-heading {
+  padding: 14px 16px;
+}
+
+.panel-heading h3,
+.league-matrix-heading h3,
+.league-rankings h3,
+.bracket-round-column h3 {
+  color: #111;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.member-list-row {
+  border-bottom-color: #ccc;
+}
+
+.member-list-item {
+  border-radius: 0;
+  color: #111;
+}
+
+.tournament-sidebar,
+.tournament-detail {
+  border-radius: 0;
+}
+
+.tournament-list-item {
+  border-radius: 0;
+}
+
+.tournament-list-item.active,
+.tournament-list-item:hover {
+  background: #eee;
+  color: #111;
+}
+
+.status-pill,
+.format-pill,
+.tab-button,
+.match-action,
+.surface-pill {
+  border-radius: 0;
+}
+
+.player-profile,
+.player-history {
+  margin-bottom: 16px;
+}
+
+.player-profile-identity strong,
+.player-profile-points strong {
+  color: #111;
+  font-family: inherit;
+}
+
+.player-profile-identity > span:last-child,
+.player-profile-points > span,
+.player-profile-stats > div > span {
+  color: #555;
+}
+
+.player-profile-stats {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.modal-backdrop {
+  background: #0006;
+}
+
+.modal {
+  border-radius: 0;
+  border: 1px solid #111;
+  box-shadow: none;
+}
+
+.modal-head {
+  border-bottom-color: #999;
+}
+
+.toast {
+  border-radius: 0;
+  border: 1px solid #111;
+  box-shadow: none;
+}
+
+.toast-check {
+  border-radius: 0;
+  background: #111;
+}
+
+.empty-state {
+  color: #555;
+}
+
+.cloud-loading {
+  border-color: #bbb;
+  color: #333;
+}
+
+@media (max-width: 760px) {
+  .sidebar {
+    position: static;
+    width: 100%;
+    border-right: 0;
+    border-bottom: 1px solid #bbb;
+    padding: 0;
+  }
+
+  .sidebar nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .nav-item {
+    justify-content: center;
+    padding: 0 8px;
+    border-right: 1px solid #ddd;
+  }
+
+  .nav-item:last-child {
+    border-right: 0;
+  }
+
+  .main {
+    margin-left: 0;
+  }
+
+  .content {
+    padding: 22px 14px 32px;
+  }
+
+  .page-heading h1 {
+    font-size: 21px;
+  }
+
+  .ranking-list-head,
+  .ranking-item {
+    grid-template-columns: 48px minmax(0, 1fr) 90px;
+    padding: 11px 10px;
+  }
+
+  .player-profile-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
