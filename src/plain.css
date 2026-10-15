@@ -269,6 +269,26 @@ select:focus-visible {
   color: #555;
 }
 
+.point-save-actions {
+  align-items: flex-end;
+}
+
+.expiry-field {
+  display: grid;
+  gap: 5px;
+  color: #111;
+  font-size: 12px;
+}
+
+.expiry-field .field-input {
+  width: 150px;
+}
+
+.expiry-field span {
+  color: #555;
+  font-size: 11px;
+}
+
 .cloud-loading {
   border-color: #bbb;
   color: #333;
@@ -373,5 +393,14 @@ select:focus-visible {
 
   .player-profile-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .point-save-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .expiry-field .field-input {
+    width: 100%;
   }
 }

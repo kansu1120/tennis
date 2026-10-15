@@ -372,7 +372,7 @@ function App() {
       showNotice(`試合「${tournament.name}」を削除しました`)
     })
   }
-  const saveTournamentAwards = (tournamentId: string, awards: Record<string, number>) => {
+  const saveTournamentAwards = (tournamentId: string, awards: Record<string, number>, expiryDays: number | null) => {
     const tournament = tournaments.find(item => item.id === tournamentId)
     if (!tournament) return
     const previousAwards = tournament.awardedPoints ?? {}
@@ -381,7 +381,7 @@ function App() {
       points: Math.max(0, member.points - (previousAwards[member.id] ?? 0) + (awards[member.id] ?? 0)),
     })))
     setTournaments(prev => prev.map(item => item.id === tournamentId
-      ? { ...item, awardedPoints: awards }
+      ? { ...item, awardedPoints: awards, expiryDays }
       : item
     ))
     showNotice('試合結果と獲得ポイントを保存しました')
@@ -408,7 +408,7 @@ function App() {
       showNotice('試合には2人以上の参加者を選択してください')
       return
     }
-    const t: Tournament = { id: `t${Date.now()}`, name: newName.trim(), date: newDate, status: '準備中', format: newFormat, participants: selectedParticipantIds.length, participantIds: selectedParticipantIds, points: {}, expiryDays: 365, matches: [] }
+    const t: Tournament = { id: `t${Date.now()}`, name: newName.trim(), date: newDate, status: '準備中', format: newFormat, participants: selectedParticipantIds.length, participantIds: selectedParticipantIds, points: {}, expiryDays: null, matches: [] }
     setTournaments(prev => [t, ...prev]); setSelectedTournament(t.id); setNewName(''); setNewFormat('ノックアウト'); setSelectedParticipantIds(members.map(member => member.id)); setShowNewTournament(false); setActiveTab('tournaments'); showNotice('試合を作成しました')
   }
   const openNewTournament = () => {
@@ -719,13 +719,15 @@ function MemberProfile({ member, rank, tournaments, members, onBack, onEditPoint
 function Members({ members, onAdd, onMember, onDelete }: { members: Member[]; onAdd: () => void; onMember: (m: Member) => void; onDelete: (m: Member) => void }) {
   return <><PageHeading title="人" action={<button className="btn-primary" onClick={onAdd}><Plus size={16} /> 部員を追加</button>} /><section className="panel member-list">{members.map(member => <div className="member-list-row" key={member.id}><button className="member-list-item" onClick={() => onMember(member)}><span>{member.name}</span><ChevronRight size={16} /></button><button className="icon-button light member-delete" aria-label={`${member.name}を削除`} title="部員を削除" onClick={() => onDelete(member)}><Trash2 size={15} /></button></div>)}{members.length === 0 && <div className="empty-state">部員がいません。</div>}</section></>
 }
-function TournamentPage({ tournaments, selected, setSelected, active, members, onNew, onGenerate, onConfirmManualDraw, onResult, onEdit, onNotice, onDelete, onSaveAwards, onSaveInfo }: { tournaments: Tournament[]; selected: string; setSelected: (s: string) => void; active: Tournament | undefined; members: Member[]; onNew: () => void; onGenerate: (method?: 'automatic' | 'manual') => void; onConfirmManualDraw: () => void; onResult: (m: Match) => void; onEdit: (m: Match, side: 'a' | 'b', id: string) => void; onNotice: (s: string) => void; onDelete: (t: Tournament) => void; onSaveAwards: (id: string, awards: Record<string, number>) => void; onSaveInfo: (id: string, info: { name: string; date: string; format: string; participantIds: string[] }) => void }) {
+function TournamentPage({ tournaments, selected, setSelected, active, members, onNew, onGenerate, onConfirmManualDraw, onResult, onEdit, onNotice, onDelete, onSaveAwards, onSaveInfo }: { tournaments: Tournament[]; selected: string; setSelected: (s: string) => void; active: Tournament | undefined; members: Member[]; onNew: () => void; onGenerate: (method?: 'automatic' | 'manual') => void; onConfirmManualDraw: () => void; onResult: (m: Match) => void; onEdit: (m: Match, side: 'a' | 'b', id: string) => void; onNotice: (s: string) => void; onDelete: (t: Tournament) => void; onSaveAwards: (id: string, awards: Record<string, number>, expiryDays: number | null) => void; onSaveInfo: (id: string, info: { name: string; date: string; format: string; participantIds: string[] }) => void }) {
   const [tab, setTab] = useState('トーナメント')
   const [editingBracketMatchId, setEditingBracketMatchId] = useState<string | null>(null)
   const [awardsDraft, setAwardsDraft] = useState<Record<string, string>>({})
+  const [expiryDraft, setExpiryDraft] = useState('')
   const [infoDraft, setInfoDraft] = useState<{ name: string; date: string; format: string; participantIds: string[] } | null>(null)
   useEffect(() => {
     setAwardsDraft(Object.fromEntries(Object.entries(active?.awardedPoints ?? {}).map(([memberId, points]) => [memberId, String(points)])))
+    setExpiryDraft(active?.expiryDays === null || active?.expiryDays === undefined ? '' : String(active.expiryDays))
   }, [active?.id, active?.awardedPoints])
   useEffect(() => {
     if (tab === '試合結果' && active?.status !== '終了' && !Object.keys(active?.awardedPoints ?? {}).length) {
@@ -740,7 +742,12 @@ function TournamentPage({ tournaments, selected, setSelected, active, members, o
       onNotice('ポイントは0以上の整数を入力してください')
       return
     }
-    onSaveAwards(active.id, Object.fromEntries(entries.map(([memberId, value]) => [memberId, Number(value)])))
+    const expiryDays = expiryDraft === '' ? null : Number(expiryDraft)
+    if (expiryDays !== null && (!Number.isInteger(expiryDays) || expiryDays < 1)) {
+      onNotice('有効期限は1日以上の整数、または空欄（無期限）で入力してください')
+      return
+    }
+    onSaveAwards(active.id, Object.fromEntries(entries.map(([memberId, value]) => [memberId, Number(value)])), expiryDays)
   }
   const openInfoEditor = () => {
     if (!active) return
@@ -881,7 +888,7 @@ function TournamentPage({ tournaments, selected, setSelected, active, members, o
           </>}
           {tab === '試合結果' && (active.status === '終了' || Object.keys(active.awardedPoints ?? {}).length > 0) && <section className="tournament-results">
             <table><thead><tr><th>順位</th><th>選手</th><th>成績</th><th>付与ポイント</th></tr></thead><tbody>{standings.map(standing => <tr key={standing.member.id}><td>{standing.place}位</td><td>{standing.member.name}</td><td>{active.format === 'リーグ' ? `${standing.wins}勝 ${standing.losses}敗` : '確定'}</td><td><label className="award-points-field"><input className="field-input" aria-label={`${standing.member.name}に付与するポイント`} type="number" min="0" step="1" value={awardsDraft[standing.member.id] ?? ''} onChange={event => setAwardsDraft(current => ({ ...current, [standing.member.id]: event.target.value }))} /><span>pt</span></label></td></tr>)}</tbody></table>
-            {standings.length === 0 ? <p>試合結果はありません。</p> : <div className="point-save-actions"><button className="btn-primary" onClick={saveAwards}><Save size={15} /> 結果とポイントを保存</button></div>}
+            {standings.length === 0 ? <p>試合結果はありません。</p> : <div className="point-save-actions"><label className="expiry-field">ポイントの有効期限（日数）<input className="field-input" aria-label="ポイントの有効期限（日数）" type="number" min="1" step="1" placeholder="無期限" value={expiryDraft} onChange={event => setExpiryDraft(event.target.value)} /><span>空欄は無期限</span></label><button className="btn-primary" onClick={saveAwards}><Save size={15} /> 結果とポイントを保存</button></div>}
           </section>}
           {tab === '試合情報' && <div className="tournament-info-panel"><div><span>試合名</span><strong>{active.name}</strong></div><div><span>開催日</span><strong>{active.date}</strong></div><div><span>試合形式</span><strong>{active.format === 'リーグ' ? 'リーグ（総当たり）' : 'トーナメント'}</strong></div><div><span>参加人数</span><strong>{active.participants}人</strong></div><div><span>状態</span><strong>{active.status}</strong></div><button className="btn-secondary" onClick={openInfoEditor}>試合情報を編集</button></div>}
           {infoDraft && active && <Modal title="試合情報を編集" onClose={() => setInfoDraft(null)}>
