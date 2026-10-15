@@ -608,12 +608,6 @@ function App() {
       </aside>
       <main className="main">
         <div className="content">
-          <div className={`cloud-status ${cloudStatus}`} role={cloudStatus === 'error' ? 'alert' : 'status'}>
-            {cloudStatus === 'loading' && '共有データを読み込み中...'}
-            {cloudStatus === 'connected' && 'Supabaseで部員と大会データを共有中です。公開URLを知る人は誰でも変更できます。'}
-            {cloudStatus === 'local' && 'ローカル保存中です。共有を有効にするにはSupabase設定が必要です。'}
-            {cloudStatus === 'error' && `Supabase共有エラー：${cloudError}（この端末のデータは引き続きローカルに保存されます）`}
-          </div>
           {cloudStatus === 'loading' ? <section className="panel cloud-loading">共有データを読み込んでいます。</section> : <>
           {selectedMember ? <MemberProfile member={ranked.find(member => member.id === selectedMember.id) ?? selectedMember} rank={rankFor(ranked.find(member => member.id === selectedMember.id) ?? selectedMember)} tournaments={tournaments} members={members} onBack={() => setSelectedMember(null)} onEditPoints={() => openPointsEditor(selectedMember.id)} /> : <>
             {activeTab === 'ranking' && <Ranking members={ranked} ranked={ranked} onMember={setSelectedMember} />}
