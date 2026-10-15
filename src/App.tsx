@@ -876,11 +876,17 @@ function TournamentPage({ tournaments, selected, setSelected, active, members, o
                       if (roundIndex === 0) return active.manualDraw ? '未設定' : 'BYE'
                       return '—'
                     }
+                    const handlePlayerClick = () => {
+                      if (active.manualDraw || (roundIndex === 0 && !isMatchResultRecorded && !isEditingFirstRound)) {
+                        setEditingBracketMatchId(isEditingFirstRound ? null : match.id)
+                        return
+                      }
+                      if (!active.manualDraw && match.a && match.b) onResult(match)
+                    }
                     return <article className="bracket-match" key={match.id} style={{ gridRow: `${matchIndex * matchSpan + 1} / span ${matchSpan}` }}>
-                      <div className={`bracket-player ${match.winner === match.a && match.a ? 'winner' : ''}`}><span>{memberA?.name ?? (match.a ? '登録外' : slotLabel('a'))}</span><strong>{match.scoreA ?? (match.winner === match.a && match.a && !match.b ? 'BYE' : '—')}</strong></div>
-                      <div className={`bracket-player ${match.winner === match.b && match.b ? 'winner' : ''}`}><span>{memberB?.name ?? (match.b ? '登録外' : slotLabel('b'))}</span><strong>{match.scoreB ?? (match.winner === match.b && match.b && !match.a ? 'BYE' : '—')}</strong></div>
+                      <button className={`bracket-player ${match.winner === match.a && match.a ? 'winner' : ''}`} onClick={handlePlayerClick} disabled={!match.a && !match.b}><span>{memberA?.name ?? (match.a ? '登録外' : slotLabel('a'))}</span><strong>{match.scoreA ?? (match.winner === match.a && match.a && !match.b ? 'BYE' : '—')}</strong></button>
+                      <button className={`bracket-player ${match.winner === match.b && match.b ? 'winner' : ''}`} onClick={handlePlayerClick} disabled={!match.a && !match.b}><span>{memberB?.name ?? (match.b ? '登録外' : slotLabel('b'))}</span><strong>{match.scoreB ?? (match.winner === match.b && match.b && !match.a ? 'BYE' : '—')}</strong></button>
                       {roundIndex === 0 && isEditingFirstRound && <div className="bracket-slot-edit"><label><span>選手A</span><select aria-label="選手Aを変更" value={match.a} disabled={isMatchResultRecorded} onChange={event => onEdit(originalMatch, 'a', event.target.value)}><option value="">BYE / 未設定</option>{tournamentMembers.map(member => <option key={member.id} value={member.id}>{member.name}</option>)}</select></label><label><span>選手B</span><select aria-label="選手Bを変更" value={match.b} disabled={isMatchResultRecorded} onChange={event => onEdit(originalMatch, 'b', event.target.value)}><option value="">BYE / 未設定</option>{tournamentMembers.map(member => <option key={member.id} value={member.id}>{member.name}</option>)}</select></label></div>}
-                      <div className="bracket-match-actions"><span>{active.manualDraw ? '組合せ未確定' : match.winner && (!match.a || !match.b) ? 'BYE 自動進出' : match.winner ? '終了' : match.a && match.b ? '未実施' : roundIndex === 0 ? 'BYE' : '進出待ち'}</span><div>{roundIndex === 0 && !active.manualDraw && <button disabled={isMatchResultRecorded} onClick={() => setEditingBracketMatchId(isEditingFirstRound ? null : match.id)}>{isEditingFirstRound ? '編集終了' : '組合せ編集'}</button>}<button disabled={active.manualDraw || !match.a || !match.b} onClick={() => { if (!match.a || !match.b) onNotice('対戦する2人を設定してください'); else onResult(match) }}>{match.winner ? '結果修正' : '結果入力'}</button></div></div>
                     </article>
                   })}</div></section>
                 })}</div></div>}

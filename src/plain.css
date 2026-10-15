@@ -354,6 +354,14 @@ select:focus-visible {
   box-shadow: none;
 }
 
+.bracket-player:not(:disabled) {
+  cursor: pointer;
+}
+
+.bracket-player:disabled {
+  opacity: 1;
+}
+
 .bracket-slot-edit select,
 .bracket-match-actions button {
   background: #fff;
