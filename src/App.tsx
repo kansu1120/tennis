@@ -829,7 +829,7 @@ function TournamentPage({ tournaments, selected, setSelected, active, members, o
     <PageHeading title="試合" action={<button className="btn-primary" onClick={onNew}><Plus size={16} /> 試合を作成</button>} />
     <div className="tournament-layout">
       <aside className="panel tournament-sidebar">
-        <div className="panel-heading"><h3>試合</h3><button className="icon-button light" onClick={onNew}><Plus size={17} /></button></div>
+        <div className="panel-heading"><h3>試合一覧</h3><button className="icon-button light" onClick={onNew}><Plus size={17} /></button></div>
         <div className="tournament-side-list">{tournaments.map(t => <button key={t.id} className={`tournament-side-item ${selected === t.id ? 'selected' : ''}`} onClick={() => setSelected(t.id)}><strong>{t.name}</strong><StatusPill status={t.status} /></button>)}</div>
       </aside>
       <section className="panel tournament-detail">
