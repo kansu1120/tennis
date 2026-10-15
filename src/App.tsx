@@ -598,8 +598,8 @@ function App() {
   }
   const nav = [
     { id: 'ranking', label: 'ランキング', icon: Trophy },
-    { id: 'tournaments', label: '大会管理', icon: CalendarDays },
-    { id: 'members', label: '部員管理', icon: Users },
+    { id: 'tournaments', label: '試合', icon: CalendarDays },
+    { id: 'members', label: '人', icon: Users },
   ]
   return (
     <div className="app-shell">
