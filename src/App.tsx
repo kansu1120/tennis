@@ -408,7 +408,39 @@ function App() {
       showNotice('試合には2人以上の参加者を選択してください')
       return
     }
-    const t: Tournament = { id: `t${Date.now()}`, name: newName.trim(), date: newDate, status: '準備中', format: newFormat, participants: selectedParticipantIds.length, participantIds: selectedParticipantIds, points: {}, expiryDays: null, matches: [] }
+    const id = `t${Date.now()}`
+    const participantIds = [...selectedParticipantIds]
+    const matches: Match[] = []
+    if (newFormat === 'リーグ') {
+      const rotation: (string | null)[] = [...participantIds]
+      if (rotation.length % 2 === 1) rotation.push(null)
+      const roundCount = rotation.length - 1
+      const matchesPerRound = rotation.length / 2
+      for (let round = 0; round < roundCount; round++) {
+        for (let matchIndex = 0; matchIndex < matchesPerRound; matchIndex++) {
+          const a = rotation[matchIndex]
+          const b = rotation[rotation.length - 1 - matchIndex]
+          if (!a || !b) continue
+          matches.push({ id: `${id}-league-r${round + 1}-${matchIndex}`, round: `第${round + 1}節`, a, b, scoreA: null, scoreB: null, winner: null })
+        }
+        const fixed = rotation[0]
+        const rest = rotation.slice(1)
+        const last = rest.pop()
+        if (last !== undefined) rest.unshift(last)
+        rotation.splice(0, rotation.length, fixed, ...rest)
+      }
+    } else {
+      const size = 2 ** Math.ceil(Math.log2(Math.max(2, participantIds.length)))
+      const roundCount = Math.log2(size)
+      const roundNames = (round: number) => round === roundCount ? '決勝' : round === roundCount - 1 ? '準決勝' : round === roundCount - 2 ? '準々決勝' : `${round - (roundCount - 3)}回戦`
+      for (let round = 1; round <= roundCount; round++) {
+        const count = size / (2 ** round)
+        for (let index = 0; index < count; index++) {
+          matches.push({ id: `${id}-r${round}-${index}`, round: roundNames(round), a: '', b: '', scoreA: null, scoreB: null, winner: null })
+        }
+      }
+    }
+    const t: Tournament = { id, name: newName.trim(), date: newDate, status: '開催中', format: newFormat, participants: participantIds.length, participantIds, points: {}, expiryDays: null, matches, manualDraw: newFormat !== 'リーグ' }
     setTournaments(prev => [t, ...prev]); setSelectedTournament(t.id); setNewName(''); setNewFormat('ノックアウト'); setSelectedParticipantIds(members.map(member => member.id)); setShowNewTournament(false); setActiveTab('tournaments'); showNotice('試合を作成しました')
   }
   const openNewTournament = () => {
