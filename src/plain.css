@@ -318,7 +318,6 @@ select:focus-visible {
 }
 
 .tournament-side-item.selected,
-.bracket-player.winner,
 .bracket-slot-edit,
 .bracket-match-actions,
 .league-rankings h3,
@@ -330,8 +329,23 @@ select:focus-visible {
   color: #111;
 }
 
-.tournament-side-item.selected strong,
 .bracket-player.winner,
+.league-matrix-result.won {
+  background: #c7c7c7;
+  color: #111;
+}
+
+.league-matrix-result.lost {
+  background: #f2f2f2;
+  color: #555;
+}
+
+.league-matrix-result.pending {
+  background: #fff;
+  color: #111;
+}
+
+.tournament-side-item.selected strong,
 .bracket-player.winner strong,
 .bracket-slot-edit label,
 .bracket-match-actions span,
@@ -339,6 +353,10 @@ select:focus-visible {
 .league-rankings h3,
 .tournament-results th,
 .tournament-results td {
+  color: #111;
+}
+
+.bracket-player.winner strong {
   color: #111;
 }
 
