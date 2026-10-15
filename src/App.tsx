@@ -5,7 +5,7 @@ import {
   Plus, Save, Sparkles, Trash2, Trophy, Users, X
 } from 'lucide-react'
 import './ranking.css'
-import { isCloudConfigured, loadSharedState, saveSharedRecords, subscribeToSharedRecords, type SharedRecord } from './sharedData'
+import { isCloudConfigured, loadSharedState, saveSharedRecords, subscribeToSharedRecords, type SharedHistoryRecord, type SharedRecord } from './sharedData'
 
 type Member = { id: string; name: string; nickname: string; points: number; pointAdjustment?: number; wins: number; losses: number; color: string }
 type Surface = 'ハード' | 'クレー' | 'オムニ'
@@ -256,7 +256,22 @@ function App() {
     collectChanges(previous.tournaments, tournaments, 'tournament')
     lastSyncedState.current = { members, tournaments }
     if (!records.length) return
-    void saveSharedRecords(records).then(() => {
+    const history: SharedHistoryRecord[] = records.map(record => {
+      const previousRecord = record.kind === 'member'
+        ? previous.members.find(item => item.id === record.id)
+        : previous.tournaments.find(item => item.id === record.id)
+      const nextRecord = record.deleted ? null : record.data
+      return {
+        id: crypto.randomUUID(),
+        kind: record.kind,
+        record_id: record.id,
+        action: previousRecord === undefined ? 'created' : record.deleted ? 'deleted' : 'updated',
+        before_data: previousRecord ?? null,
+        after_data: nextRecord,
+        changed_at: new Date().toISOString(),
+      }
+    })
+    void saveSharedRecords(records, history).then(() => {
       setCloudStatus('connected')
       setCloudError('')
     }).catch(error => {

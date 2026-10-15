@@ -22,6 +22,7 @@ npm run preview
 
 1. Supabaseでプロジェクトを作成します。
 2. SQL Editorで [`supabase/schema.sql`](./supabase/schema.sql) の内容を実行します。
+   既存のプロジェクトへ変更履歴だけ追加する場合は、[`supabase/history.sql`](./supabase/history.sql) も実行してください。
 3. SupabaseのProject URLとpublishable key（旧anon key）を使い、プロジェクト直下の `.env.local` を作成します。
 
    ```dotenv
@@ -47,4 +48,4 @@ GitHub Actionsは `.github/workflows/deploy.yml` でビルドと公開を行い�
 
 ## データ共有
 
-Supabaseに接続すると、部員・大会・試合結果を複数端末で共有できます。Supabaseのバックアップを有効にし、重要なデータは定期的にエクスポートしてください。
+Supabaseに接続すると、部員・大会・試合結果を複数端末で共有できます。データを変更するたびに、変更前後の内容を `court_record_history` に保存します。履歴は自動削除しません。

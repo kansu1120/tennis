@@ -7,6 +7,15 @@ export type SharedRecord = {
   data: unknown | null
   deleted: boolean
 }
+export type SharedHistoryRecord = {
+  id: string
+  kind: SharedKind
+  record_id: string
+  action: 'created' | 'updated' | 'deleted'
+  before_data: unknown | null
+  after_data: unknown | null
+  changed_at: string
+}
 export type SharedState = {
   members: unknown[]
   tournaments: unknown[]
@@ -53,8 +62,12 @@ export async function loadSharedState(fallback: SharedState): Promise<SharedStat
   return fromRecords(records)
 }
 
-export async function saveSharedRecords(records: SharedRecord[]) {
+export async function saveSharedRecords(records: SharedRecord[], history: SharedHistoryRecord[] = []) {
   if (!supabase || records.length === 0) return
+  if (history.length) {
+    const historyResult = await supabase.from('court_record_history').insert(history)
+    if (historyResult.error) throw historyResult.error
+  }
   const result = await supabase.from('court_records').upsert(records, { onConflict: 'kind,id' })
   if (result.error) throw result.error
 }
