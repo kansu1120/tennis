@@ -355,7 +355,7 @@ function App() {
   }
   const deleteTournament = (tournament: Tournament) => {
     requestAdminAccess(() => {
-      if (!window.confirm(`大会「${tournament.name}」とその試合記録を削除しますか？`)) return
+      if (!window.confirm(`試合「${tournament.name}」とその試合記録を削除しますか？`)) return
       setMembers(prev => prev.map(member => {
         let wins = member.wins
         let losses = member.losses
@@ -369,7 +369,7 @@ function App() {
       const remaining = tournaments.filter(item => item.id !== tournament.id)
       setTournaments(remaining)
       setSelectedTournament(remaining[0]?.id ?? '')
-      showNotice(`大会「${tournament.name}」を削除しました`)
+      showNotice(`試合「${tournament.name}」を削除しました`)
     })
   }
   const saveTournamentAwards = (tournamentId: string, awards: Record<string, number>) => {
@@ -384,7 +384,7 @@ function App() {
       ? { ...item, awardedPoints: awards }
       : item
     ))
-    showNotice('大会結果と獲得ポイントを保存しました')
+    showNotice('試合結果と獲得ポイントを保存しました')
   }
   const saveTournamentInfo = (tournamentId: string, info: { name: string; date: string; format: string; participantIds: string[] }) => {
     setTournaments(prev => prev.map(tournament => tournament.id === tournamentId
@@ -400,16 +400,16 @@ function App() {
       }
       : tournament
     ))
-    showNotice('大会情報を更新しました')
+    showNotice('試合情報を更新しました')
   }
   const addTournament = () => {
     if (!newName.trim()) return
     if (selectedParticipantIds.length < 2) {
-      showNotice('大会には2人以上の参加者を選択してください')
+      showNotice('試合には2人以上の参加者を選択してください')
       return
     }
     const t: Tournament = { id: `t${Date.now()}`, name: newName.trim(), date: newDate, status: '準備中', format: newFormat, participants: selectedParticipantIds.length, participantIds: selectedParticipantIds, points: {}, expiryDays: 365, matches: [] }
-    setTournaments(prev => [t, ...prev]); setSelectedTournament(t.id); setNewName(''); setNewFormat('ノックアウト'); setSelectedParticipantIds(members.map(member => member.id)); setShowNewTournament(false); setActiveTab('tournaments'); showNotice('大会を作成しました')
+    setTournaments(prev => [t, ...prev]); setSelectedTournament(t.id); setNewName(''); setNewFormat('ノックアウト'); setSelectedParticipantIds(members.map(member => member.id)); setShowNewTournament(false); setActiveTab('tournaments'); showNotice('試合を作成しました')
   }
   const openNewTournament = () => {
     setSelectedParticipantIds(members.map(member => member.id))
@@ -618,7 +618,7 @@ function App() {
         </div>
       </main>
       {notice && <div className="toast"><div className="toast-check"><Check size={15} /></div><span>{notice.message}</span><button onClick={() => setNotice(null)}><X size={15} /></button></div>}
-      {showNewTournament && <Modal title="新しい大会" onClose={() => setShowNewTournament(false)}><label className="field-label">大会名</label><input className="field-input" value={newName} onChange={e => setNewName(e.target.value)} placeholder="大会名を入力" autoFocus /><label className="field-label">開催日</label><input className="field-input" type="date" value={newDate} onChange={e => setNewDate(e.target.value)} /><label className="field-label">大会形式</label><select className="field-input" value={newFormat} onChange={e => setNewFormat(e.target.value === 'リーグ' ? 'リーグ' : 'ノックアウト')}><option value="ノックアウト">トーナメント</option><option value="リーグ">リーグ（総当たり）</option></select><div className="participant-picker"><div className="participant-picker-heading"><span className="field-label">参加者（{selectedParticipantIds.length}人選択）</span><button type="button" className="participant-select-all" onClick={() => setSelectedParticipantIds(selectedParticipantIds.length === members.length ? [] : members.map(member => member.id))}>{selectedParticipantIds.length === members.length ? '全解除' : '全員選択'}</button></div><div className="participant-picker-list">{ranked.map(member => <label className="participant-option" key={member.id}><input type="checkbox" checked={selectedParticipantIds.includes(member.id)} onChange={e => setSelectedParticipantIds(current => e.target.checked ? [...current, member.id] : current.filter(id => id !== member.id))} /><span>{member.name}</span></label>)}</div></div><div className="modal-actions"><button className="btn-secondary" onClick={() => setShowNewTournament(false)}>キャンセル</button><button className="btn-primary" onClick={addTournament} disabled={!newName.trim() || selectedParticipantIds.length < 2}>大会を作成 <ChevronRight size={15} /></button></div></Modal>}
+      {showNewTournament && <Modal title="新しい試合" onClose={() => setShowNewTournament(false)}><label className="field-label">試合名</label><input className="field-input" value={newName} onChange={e => setNewName(e.target.value)} placeholder="試合名を入力" autoFocus /><label className="field-label">開催日</label><input className="field-input" type="date" value={newDate} onChange={e => setNewDate(e.target.value)} /><label className="field-label">試合形式</label><select className="field-input" value={newFormat} onChange={e => setNewFormat(e.target.value === 'リーグ' ? 'リーグ' : 'ノックアウト')}><option value="ノックアウト">トーナメント</option><option value="リーグ">リーグ（総当たり）</option></select><div className="participant-picker"><div className="participant-picker-heading"><span className="field-label">参加者（{selectedParticipantIds.length}人選択）</span><button type="button" className="participant-select-all" onClick={() => setSelectedParticipantIds(selectedParticipantIds.length === members.length ? [] : members.map(member => member.id))}>{selectedParticipantIds.length === members.length ? '全解除' : '全員選択'}</button></div><div className="participant-picker-list">{ranked.map(member => <label className="participant-option" key={member.id}><input type="checkbox" checked={selectedParticipantIds.includes(member.id)} onChange={e => setSelectedParticipantIds(current => e.target.checked ? [...current, member.id] : current.filter(id => id !== member.id))} /><span>{member.name}</span></label>)}</div></div><div className="modal-actions"><button className="btn-secondary" onClick={() => setShowNewTournament(false)}>キャンセル</button><button className="btn-primary" onClick={addTournament} disabled={!newName.trim() || selectedParticipantIds.length < 2}>試合を作成 <ChevronRight size={15} /></button></div></Modal>}
       {showNewMember && <Modal title="部員を追加" onClose={() => setShowNewMember(false)}><label className="field-label">氏名</label><input className="field-input" value={newMemberName} onChange={e => setNewMemberName(e.target.value)} placeholder="氏名を入力" autoFocus onKeyDown={e => e.key === 'Enter' && requestAdminAccess(addMember)} /><div className="modal-actions"><button className="btn-secondary" onClick={() => setShowNewMember(false)}>キャンセル</button><button className="btn-primary" onClick={() => requestAdminAccess(addMember)} disabled={!newMemberName.trim()}>部員を追加 <ChevronRight size={15} /></button></div></Modal>}
       {showPointsEditor && <Modal title="ポイントを編集" onClose={() => setShowPointsEditor(false)}><label className="field-label" htmlFor="member-points">現在のポイント</label><input id="member-points" className="field-input" type="number" min="0" step="1" value={pointsDraft} onChange={event => setPointsDraft(event.target.value)} autoFocus onKeyDown={event => event.key === 'Enter' && saveMemberPoints()} /><div className="modal-actions"><button className="btn-secondary" onClick={() => setShowPointsEditor(false)}>キャンセル</button><button className="btn-primary" onClick={saveMemberPoints}>保存 <Check size={15} /></button></div></Modal>}
       {showResult && <Modal title="試合結果を入力" onClose={() => setShowResult(null)}>
@@ -728,7 +728,7 @@ function TournamentPage({ tournaments, selected, setSelected, active, members, o
     setAwardsDraft(Object.fromEntries(Object.entries(active?.awardedPoints ?? {}).map(([memberId, points]) => [memberId, String(points)])))
   }, [active?.id, active?.awardedPoints])
   useEffect(() => {
-    if (tab === '大会結果' && active?.status !== '終了' && !Object.keys(active?.awardedPoints ?? {}).length) {
+    if (tab === '試合結果' && active?.status !== '終了' && !Object.keys(active?.awardedPoints ?? {}).length) {
       setTab('トーナメント')
     }
   }, [active?.id, active?.status, active?.awardedPoints, tab])
@@ -753,11 +753,11 @@ function TournamentPage({ tournaments, selected, setSelected, active, members, o
   }
   const saveInfo = () => {
     if (!active || !infoDraft?.name.trim() || !infoDraft.date) {
-      onNotice('大会名と開催日を入力してください')
+      onNotice('試合名と開催日を入力してください')
       return
     }
     if (active.matches.length === 0 && infoDraft.participantIds.length < 2) {
-      onNotice('大会には2人以上の参加者を選択してください')
+      onNotice('試合には2人以上の参加者を選択してください')
       return
     }
     onSaveInfo(active.id, { ...infoDraft, name: infoDraft.name.trim() })
@@ -819,7 +819,7 @@ function TournamentPage({ tournaments, selected, setSelected, active, members, o
     }
   }
   return <>
-    <PageHeading title="試合" action={<button className="btn-primary" onClick={onNew}><Plus size={16} /> 大会を作成</button>} />
+    <PageHeading title="試合" action={<button className="btn-primary" onClick={onNew}><Plus size={16} /> 試合を作成</button>} />
     <div className="tournament-layout">
       <aside className="panel tournament-sidebar">
         <div className="panel-heading"><h3>試合</h3><button className="icon-button light" onClick={onNew}><Plus size={17} /></button></div>
@@ -827,8 +827,8 @@ function TournamentPage({ tournaments, selected, setSelected, active, members, o
       </aside>
       <section className="panel tournament-detail">
         {active ? <>
-          <div className="tournament-detail-head"><h2>{active.name}</h2><div className="tournament-detail-actions"><StatusPill status={active.status} /><button className="icon-button light tournament-delete" aria-label="大会を削除" title="大会を削除" onClick={() => onDelete(active)}><Trash2 size={16} /></button></div></div>
-          <div className="tournament-tabs">{['トーナメント', ...(active.status === '終了' || Object.keys(active.awardedPoints ?? {}).length ? ['大会結果'] : []), '大会情報'].map(x => <button key={x} className={tab === x ? 'selected' : ''} onClick={() => setTab(x)}>{x}</button>)}</div>
+          <div className="tournament-detail-head"><h2>{active.name}</h2><div className="tournament-detail-actions"><StatusPill status={active.status} /><button className="icon-button light tournament-delete" aria-label="試合を削除" title="試合を削除" onClick={() => onDelete(active)}><Trash2 size={16} /></button></div></div>
+          <div className="tournament-tabs">{['トーナメント', ...(active.status === '終了' || Object.keys(active.awardedPoints ?? {}).length ? ['試合結果'] : []), '試合情報'].map(x => <button key={x} className={tab === x ? 'selected' : ''} onClick={() => setTab(x)}>{x}</button>)}</div>
           {tab === 'トーナメント' && <>
             <div className="bracket-toolbar">
               <strong>{active.format === 'リーグ' ? 'リーグ戦' : '対戦表'}</strong>
@@ -879,19 +879,19 @@ function TournamentPage({ tournaments, selected, setSelected, active, members, o
                 })}</div></div>}
               </>}
           </>}
-          {tab === '大会結果' && (active.status === '終了' || Object.keys(active.awardedPoints ?? {}).length > 0) && <section className="tournament-results">
+          {tab === '試合結果' && (active.status === '終了' || Object.keys(active.awardedPoints ?? {}).length > 0) && <section className="tournament-results">
             <table><thead><tr><th>順位</th><th>選手</th><th>成績</th><th>付与ポイント</th></tr></thead><tbody>{standings.map(standing => <tr key={standing.member.id}><td>{standing.place}位</td><td>{standing.member.name}</td><td>{active.format === 'リーグ' ? `${standing.wins}勝 ${standing.losses}敗` : '確定'}</td><td><label className="award-points-field"><input className="field-input" aria-label={`${standing.member.name}に付与するポイント`} type="number" min="0" step="1" value={awardsDraft[standing.member.id] ?? ''} onChange={event => setAwardsDraft(current => ({ ...current, [standing.member.id]: event.target.value }))} /><span>pt</span></label></td></tr>)}</tbody></table>
-            {standings.length === 0 ? <p>大会結果はありません。</p> : <div className="point-save-actions"><button className="btn-primary" onClick={saveAwards}><Save size={15} /> 結果とポイントを保存</button></div>}
+            {standings.length === 0 ? <p>試合結果はありません。</p> : <div className="point-save-actions"><button className="btn-primary" onClick={saveAwards}><Save size={15} /> 結果とポイントを保存</button></div>}
           </section>}
-          {tab === '大会情報' && <div className="tournament-info-panel"><div><span>大会名</span><strong>{active.name}</strong></div><div><span>開催日</span><strong>{active.date}</strong></div><div><span>大会形式</span><strong>{active.format === 'リーグ' ? 'リーグ（総当たり）' : 'トーナメント'}</strong></div><div><span>参加人数</span><strong>{active.participants}人</strong></div><div><span>状態</span><strong>{active.status}</strong></div><button className="btn-secondary" onClick={openInfoEditor}>大会情報を編集</button></div>}
-          {infoDraft && active && <Modal title="大会情報を編集" onClose={() => setInfoDraft(null)}>
-            <label className="field-label" htmlFor="edit-tournament-name">大会名</label><input id="edit-tournament-name" className="field-input" value={infoDraft.name} onChange={event => setInfoDraft(current => current ? { ...current, name: event.target.value } : current)} autoFocus />
+          {tab === '試合情報' && <div className="tournament-info-panel"><div><span>試合名</span><strong>{active.name}</strong></div><div><span>開催日</span><strong>{active.date}</strong></div><div><span>試合形式</span><strong>{active.format === 'リーグ' ? 'リーグ（総当たり）' : 'トーナメント'}</strong></div><div><span>参加人数</span><strong>{active.participants}人</strong></div><div><span>状態</span><strong>{active.status}</strong></div><button className="btn-secondary" onClick={openInfoEditor}>試合情報を編集</button></div>}
+          {infoDraft && active && <Modal title="試合情報を編集" onClose={() => setInfoDraft(null)}>
+            <label className="field-label" htmlFor="edit-tournament-name">試合名</label><input id="edit-tournament-name" className="field-input" value={infoDraft.name} onChange={event => setInfoDraft(current => current ? { ...current, name: event.target.value } : current)} autoFocus />
             <label className="field-label" htmlFor="edit-tournament-date">開催日</label><input id="edit-tournament-date" className="field-input" type="date" value={infoDraft.date} onChange={event => setInfoDraft(current => current ? { ...current, date: event.target.value } : current)} />
-            <label className="field-label" htmlFor="edit-tournament-format">大会形式</label><select id="edit-tournament-format" className="field-input" value={infoDraft.format} disabled={active.matches.length > 0} onChange={event => setInfoDraft(current => current ? { ...current, format: event.target.value } : current)}><option value="ノックアウト">トーナメント</option><option value="リーグ">リーグ（総当たり）</option></select>
+            <label className="field-label" htmlFor="edit-tournament-format">試合形式</label><select id="edit-tournament-format" className="field-input" value={infoDraft.format} disabled={active.matches.length > 0} onChange={event => setInfoDraft(current => current ? { ...current, format: event.target.value } : current)}><option value="ノックアウト">トーナメント</option><option value="リーグ">リーグ（総当たり）</option></select>
             {active.matches.length === 0 && <div className="participant-picker"><div className="participant-picker-heading"><span className="field-label">参加者（{infoDraft.participantIds.length}人選択）</span><button type="button" className="participant-select-all" onClick={() => setInfoDraft(current => current ? { ...current, participantIds: current.participantIds.length === members.length ? [] : members.map(member => member.id) } : current)}>{infoDraft.participantIds.length === members.length ? '全解除' : '全員選択'}</button></div><div className="participant-picker-list">{members.map(member => <label className="participant-option" key={member.id}><input type="checkbox" checked={infoDraft.participantIds.includes(member.id)} onChange={event => setInfoDraft(current => current ? { ...current, participantIds: event.target.checked ? [...current.participantIds, member.id] : current.participantIds.filter(id => id !== member.id) } : current)} /><span>{member.name}</span></label>)}</div></div>}
             <div className="modal-actions"><button className="btn-secondary" onClick={() => setInfoDraft(null)}>キャンセル</button><button className="btn-primary" onClick={saveInfo}>変更を保存 <Check size={15} /></button></div>
           </Modal>}
-        </> : <div className="empty-state">大会を作成してください。</div>}
+        </> : <div className="empty-state">試合を作成してください。</div>}
       </section>
     </div>
   </>
