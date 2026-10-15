@@ -294,6 +294,29 @@ select:focus-visible {
   color: #333;
 }
 
+.status-pill,
+.status-pill.in-progress,
+.status-pill.finished,
+.status-pill.preparing,
+.league-matrix-result.won,
+.league-matrix-result.lost,
+.league-matrix-result.pending,
+.league-matrix-diagonal {
+  background: #eee;
+  color: #111;
+}
+
+.league-matrix-result.won strong,
+.league-matrix-result.pending span {
+  color: #111;
+}
+
+.league-matrix-result:hover,
+.league-matrix-result:focus-visible {
+  border-color: #777;
+  background: #ddd;
+}
+
 @media (max-width: 760px) {
   .sidebar {
     position: static;
