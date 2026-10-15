@@ -270,12 +270,14 @@ select:focus-visible {
   .sidebar {
     position: fixed;
     inset: 0 auto 0 0;
-    width: 142px;
+    width: 128px;
     height: 100vh;
     overflow-y: auto;
+    overflow-x: hidden;
     border-right: 1px solid #bbb;
     border-bottom: 0;
-    padding: 0;
+    padding: 14px 0;
+    z-index: 4;
   }
 
   .sidebar nav {
@@ -285,9 +287,12 @@ select:focus-visible {
 
   .nav-item {
     justify-content: flex-start;
-    padding: 0 16px;
+    width: 128px;
+    min-width: 128px;
+    padding: 0 12px;
     border-right: 0;
     border-bottom: 1px solid #ddd;
+    white-space: nowrap;
   }
 
   .nav-item:last-child {
@@ -295,11 +300,13 @@ select:focus-visible {
   }
 
   .main {
-    margin-left: 142px;
+    min-width: 0;
+    margin-left: 128px;
   }
 
   .content {
-    padding: 22px 12px 32px;
+    width: 100%;
+    padding: 22px 10px 32px;
   }
 
   .page-heading h1 {
@@ -308,8 +315,9 @@ select:focus-visible {
 
   .ranking-list-head,
   .ranking-item {
-    grid-template-columns: 48px minmax(0, 1fr) 90px;
-    padding: 11px 10px;
+    grid-template-columns: 38px minmax(0, 1fr) 70px;
+    gap: 8px;
+    padding: 11px 8px;
   }
 
   .player-profile-stats {
